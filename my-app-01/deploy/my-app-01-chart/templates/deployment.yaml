@@ -1,0 +1,75 @@
+{{- $values := .Values }}
+{{- $env := .Values.env }}
+{{- $name := .Values.app.name }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "getResourceName" (dict "name" $name "suffix" "deployment") }}
+  annotations:
+    version: {{ .Values.app.version }}
+spec:
+  progressDeadlineSeconds: {{ .Values.app.deployment.spec.progressDeadlineSeconds }}
+  revisionHistoryLimit: {{ .Values.app.deployment.spec.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: {{ include "getResourceName" (dict "name" $name "suffix" "pod") }}
+  replicas: {{ .Values.app.deployment.spec.replicas }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.app.deployment.spec.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.app.deployment.spec.strategy.rollingUpdate.maxUnavailable }}
+    type: {{ .Values.app.deployment.spec.strategy.type }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "getResourceName" (dict "name" $name "suffix" "pod") }}
+    spec:
+      securityContext: {}
+      terminationGracePeriodSeconds: {{ .Values.app.deployment.spec.template.spec.terminationGracePeriodSeconds }}
+      containers:   
+      {{- range $container := .Values.app.deployment.spec.template.spec.containers }}
+        - name: "{{ $name }}-deployment"
+          image: {{ include "getFullyQualifiedImage" (dict "values" $values "env" $env ) }}
+          imagePullPolicy: {{ $container.imagePullPolicy }}
+          ports:
+          {{- range $port := $container.ports }}
+          - containerPort: {{ $port.containerPort }}
+            protocol: {{ $port.protocol }}
+          {{- end }} 
+          {{- if $container.resources }}
+          resources:
+            limits:
+              cpu: {{ $container.resources.limits.cpu }}
+              memory: {{ $container.resources.limits.memory }}
+            requests:
+              cpu: {{ $container.resources.requests.cpu }}
+              memory: {{ $container.resources.requests.memory }}
+          {{- end }}
+          {{- if $container.env }}
+          env:          
+          {{- range $e := $container.env }}
+            - name: {{ $e.name }}
+              value: {{ $e.value }}
+          {{- end }}  
+          {{- end }}  
+          {{- if $container.livenessProbe }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ $container.livenessProbe.tcpSocket.port }}
+            periodSeconds: {{ $container.livenessProbe.periodSeconds }}
+            failureThreshold: {{ $container.livenessProbe.failureThreshold }}
+            initialDelaySeconds: {{ $container.livenessProbe.initialDelaySeconds }}
+            successThreshold: {{ $container.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ $container.livenessProbe.timeoutSeconds }}
+          {{- end }}
+          {{- if $container.readinessProbe }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ $container.readinessProbe.tcpSocket.port }}
+            periodSeconds: {{ $container.readinessProbe.periodSeconds }}
+            failureThreshold: {{ $container.readinessProbe.failureThreshold }}
+            initialDelaySeconds: {{ $container.readinessProbe.initialDelaySeconds }}
+            successThreshold: {{ $container.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ $container.readinessProbe.timeoutSeconds }}
+          {{- end }}  
+      {{- end }}
