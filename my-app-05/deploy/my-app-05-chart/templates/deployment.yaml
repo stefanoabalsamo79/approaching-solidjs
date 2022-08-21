@@ -28,7 +28,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.app.deployment.spec.template.spec.terminationGracePeriodSeconds }}
       containers:   
       {{- range $container := .Values.app.deployment.spec.template.spec.containers }}
-        - name: "{{ $name }}-deployment"
+        - name: {{ include "getResourceName" (dict "name" $name "suffix" "pod") }}
           image: {{ include "getFullyQualifiedImage" (dict "values" $values "env" $env ) }}
           imagePullPolicy: {{ $container.imagePullPolicy }}
           ports:
@@ -54,22 +54,10 @@ spec:
           {{- end }}  
           {{- if $container.livenessProbe }}
           livenessProbe:
-            tcpSocket:
-              port: {{ $container.livenessProbe.tcpSocket.port }}
-            periodSeconds: {{ $container.livenessProbe.periodSeconds }}
-            failureThreshold: {{ $container.livenessProbe.failureThreshold }}
-            initialDelaySeconds: {{ $container.livenessProbe.initialDelaySeconds }}
-            successThreshold: {{ $container.livenessProbe.successThreshold }}
-            timeoutSeconds: {{ $container.livenessProbe.timeoutSeconds }}
+{{ $container.livenessProbe |toYaml |indent 12 }}
           {{- end }}
-          {{- if $container.readinessProbe }}
+          {{- if $container.livenessProbe }}
           readinessProbe:
-            tcpSocket:
-              port: {{ $container.readinessProbe.tcpSocket.port }}
-            periodSeconds: {{ $container.readinessProbe.periodSeconds }}
-            failureThreshold: {{ $container.readinessProbe.failureThreshold }}
-            initialDelaySeconds: {{ $container.readinessProbe.initialDelaySeconds }}
-            successThreshold: {{ $container.readinessProbe.successThreshold }}
-            timeoutSeconds: {{ $container.readinessProbe.timeoutSeconds }}
-          {{- end }}  
+{{ $container.readinessProbe |toYaml |indent 12 }}
+          {{- end }}
       {{- end }}

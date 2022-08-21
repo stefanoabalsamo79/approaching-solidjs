@@ -50,18 +50,24 @@ app:
                 # - name: "var1"
                 #   value: "var 1 value"
               livenessProbe:
-                tcpSocket:
-                  port: 3000
-                periodSeconds: 5
-                failureThreshold: 3
+                httpGet:
+                  path: /
+                  port: 8080
                 initialDelaySeconds: 120
-                successThreshold: 1
-                timeoutSeconds: 10
-              readinessProbe:
-                tcpSocket:
-                  port: 3000
                 periodSeconds: 5
-                failureThreshold: 3
-                initialDelaySeconds: 120
-                successThreshold: 1
-                timeoutSeconds: 1
+              # livenessProbe:
+              #   tcpSocket:
+              #     port: 3000
+              #   periodSeconds: 5
+              #   failureThreshold: 3
+              #   initialDelaySeconds: 120
+              #   successThreshold: 1
+              #   timeoutSeconds: 10
+              # readinessProbe:
+              #   tcpSocket:
+              #     port: 3000
+              #   periodSeconds: 5
+              #   failureThreshold: 3
+              #   initialDelaySeconds: 120
+              #   successThreshold: 1
+              #   timeoutSeconds: 1
