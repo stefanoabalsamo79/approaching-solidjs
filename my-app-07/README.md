@@ -1,4 +1,4 @@
-## Flow controls
+## Error handling
 
 You can you run your application in 3 different ways:
 1. Locally 

@@ -1,4 +1,4 @@
-## Flow controls
+## Switch
 
 You can you run your application in 3 different ways:
 1. Locally 
@@ -62,7 +62,6 @@ const App = () => {
   </Switch>
 }  
 ```
-
 
 We use the `<Switch>` and `Match` components in order to handle the flow easily. \
 Notice that we also used the `fallback` property in case no case have been matched, then handle it. 
