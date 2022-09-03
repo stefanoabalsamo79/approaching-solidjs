@@ -34,5 +34,7 @@ make clean-up ENV=minikube APP=my-app-01
 * [`Looping and createEffect`](./my-app-03/README.md)
 * [`Derived value`](./my-app-04/README.md)
 * [`Flow controls`](./my-app-05/README.md)
+* [`Switch`](./my-app-06/README.md)
+* [`Error handling`](./my-app-07/README.md)
 
 
