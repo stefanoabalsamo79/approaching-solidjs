@@ -2,7 +2,7 @@ import {
   createSignal, For
 } from "solid-js";
 
-import Button  from './Button'
+import Button from './Button'
 
 const App = () => {
   const buttons = [
