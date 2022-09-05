@@ -36,6 +36,6 @@ make clean-up ENV=minikube APP=my-app-01
 * [`Flow controls`](./my-app-05/README.md)
 * [`Switch`](./my-app-06/README.md)
 * [`Error handling`](./my-app-07/README.md)
-* [`Lifecycle functions`](./my-app-07/README.md)
+* [`Lifecycle functions`](./my-app-08/README.md)
 
 
