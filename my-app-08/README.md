@@ -69,4 +69,4 @@ const App = (props) => {
 
 ```
 
-![image-001](./images-and-diagrams/image-001.png) 
+![image-001](./images-and-diagrams/image-001.gif) 
