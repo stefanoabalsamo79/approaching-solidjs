@@ -1,0 +1,10 @@
+button {
+  display: block;
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+.selected {
+  background-color: #ff3e00;
+  color: white;
+}
