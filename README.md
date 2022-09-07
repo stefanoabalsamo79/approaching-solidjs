@@ -38,5 +38,6 @@ make clean-up ENV=minikube APP=my-app-01
 * [`Error handling`](./my-app-07/README.md)
 * [`Lifecycle functions`](./my-app-08/README.md)
 * [`Event binding`](./my-app-09/README.md)
+* [`Style in SolidJS`](./my-app-10/README.md)
 
 
