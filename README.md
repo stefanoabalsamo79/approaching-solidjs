@@ -40,5 +40,7 @@ make clean-up ENV=minikube APP=my-app-01
 * [`Event binding`](./my-app-09/README.md)
 * [`Style in SolidJS`](./my-app-10/README.md)
 * [`Spread Operator`](./my-app-11/README.md)
+merge prop topic
+* [`Splitting Props`](./my-app-13/README.md)
 
 
