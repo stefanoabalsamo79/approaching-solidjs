@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "getResourceName" (dict "name" .Values.app.name "suffix" "service") }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ include "getResourceName" (dict "name" .Values.app.name "suffix" "pod") }}
+  ports:
+  {{- range $port := .Values.app.service.ports }}
+  - port: {{ $port.port }}
+    protocol: {{ $port.protocol }}
+    targetPort: {{ $port.targetPort }}
+    name: {{ $port.name }}
+  {{- end }}  
+  sessionAffinity: {{ .Values.app.service.sessionAffinity }}
