@@ -1,4 +1,4 @@
-## Binding - Spreads
+## Spread Operator
 
 You can you run your application in 3 different ways:
 1. Locally 
