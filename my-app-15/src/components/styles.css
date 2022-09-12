@@ -1,0 +1,8 @@
+.app-container {
+  margin: 10px;
+}
+
+.item, button { 
+  font-weight: bold;
+  margin-bottom: 5px;
+}
