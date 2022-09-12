@@ -1,0 +1,63 @@
+{{- $values := .Values }}
+{{- $env := .Values.env }}
+{{- $name := .Values.app.name }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "getResourceName" (dict "name" $name "suffix" "deployment") }}
+  annotations:
+    version: {{ .Values.app.version }}
+spec:
+  progressDeadlineSeconds: {{ .Values.app.deployment.spec.progressDeadlineSeconds }}
+  revisionHistoryLimit: {{ .Values.app.deployment.spec.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: {{ include "getResourceName" (dict "name" $name "suffix" "pod") }}
+  replicas: {{ .Values.app.deployment.spec.replicas }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.app.deployment.spec.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.app.deployment.spec.strategy.rollingUpdate.maxUnavailable }}
+    type: {{ .Values.app.deployment.spec.strategy.type }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "getResourceName" (dict "name" $name "suffix" "pod") }}
+    spec:
+      securityContext: {}
+      terminationGracePeriodSeconds: {{ .Values.app.deployment.spec.template.spec.terminationGracePeriodSeconds }}
+      containers:   
+      {{- range $container := .Values.app.deployment.spec.template.spec.containers }}
+        - name: {{ include "getResourceName" (dict "name" $name "suffix" "pod") }}
+          image: {{ include "getFullyQualifiedImage" (dict "values" $values "env" $env ) }}
+          imagePullPolicy: {{ $container.imagePullPolicy }}
+          ports:
+          {{- range $port := $container.ports }}
+          - containerPort: {{ $port.containerPort }}
+            protocol: {{ $port.protocol }}
+          {{- end }} 
+          {{- if $container.resources }}
+          resources:
+            limits:
+              cpu: {{ $container.resources.limits.cpu }}
+              memory: {{ $container.resources.limits.memory }}
+            requests:
+              cpu: {{ $container.resources.requests.cpu }}
+              memory: {{ $container.resources.requests.memory }}
+          {{- end }}
+          {{- if $container.env }}
+          env:          
+          {{- range $e := $container.env }}
+            - name: {{ $e.name }}
+              value: {{ $e.value }}
+          {{- end }}  
+          {{- end }}  
+          {{- if $container.livenessProbe }}
+          livenessProbe:
+{{ $container.livenessProbe |toYaml |indent 12 }}
+          {{- end }}
+          {{- if $container.livenessProbe }}
+          readinessProbe:
+{{ $container.readinessProbe |toYaml |indent 12 }}
+          {{- end }}
+      {{- end }}

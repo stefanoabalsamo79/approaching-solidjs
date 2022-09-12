@@ -1,0 +1,17 @@
+.app-container {
+  margin: 10px;
+}
+
+.todo { 
+  margin: 10px;
+  border: solid black 2px;
+  width: 500px;
+  padding: 10px;
+}
+
+.completed {
+  text-decoration: line-through
+}
+.not-completed {
+  text-decoration: none
+}
