@@ -42,5 +42,6 @@ make clean-up ENV=minikube APP=my-app-01
 * [`Spread Operator`](./my-app-11/README.md)
 * [`Merging Props`](./my-app-12/README.md)
 * [`Splitting Props`](./my-app-13/README.md)
+* [`Children Props`](./my-app-14/README.md)
 
 
