@@ -44,5 +44,6 @@ make clean-up ENV=minikube APP=my-app-01
 * [`Splitting Props`](./my-app-13/README.md)
 * [`Children Props`](./my-app-14/README.md)
 * [`Nested Reactivity`](./my-app-15/README.md)
+* [`Store`](./my-app-16/README.md)
 
 
